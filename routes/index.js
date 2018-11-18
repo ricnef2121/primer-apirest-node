@@ -9,3 +9,6 @@ app.post('/api/product', ProductsCtrl.saveProduct)
 app.put('/api/product/:productId', ProductsCtrl.updateProduct)
 app.delete('/api/product/:productId', ProductsCtrl.deleteProduct)
 module.exports = api
+    /**
+     * http://localhost:3000/api/product
+     */
