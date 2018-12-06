@@ -3,8 +3,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
+
 const morgan = require('morgan');
-const ProductsCtrl = require('./controllers/product')
+//const ProductsCtrl = require('./controllers/product')
+const api = require('./routes')
 
 //middlewares
 app.use(morgan('dev'));
@@ -13,17 +15,7 @@ app.use(bodyParser.json());
 
 
 
-
 //routes***************************************
-//traeme los productos
-app.get('/api/product', ProductsCtrl.getProduct)
-    //traeme un producto en especifico
-app.get('/api/product/:productId', ProductsCtrl.getProductId)
-    //envia un producto al servidor
-app.post('/api/product', ProductsCtrl.saveProduct)
-    //actualiza un producto
-app.put('/api/product/:productId', ProductsCtrl.updateProduct)
-    //elimina un producto
-app.delete('/api/product/:productId', ProductsCtrl.deleteProduct)
-
+app.use('/api',api)
 module.exports = app;
+

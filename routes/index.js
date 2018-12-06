@@ -1,13 +1,25 @@
 'use strict'
 const express = require('express');
 const ProductsCtrl = require('../controllers/product')
-const api = express.Router;
+const userCtrl = require('../controllers/user')
+const auth = require('../middlewares/auth');
+const api = express.Router();
 
-app.get('/api/product', ProductsCtrl.getProduct)
-app.get('/api/product/:productId', ProductsCtrl.getProductId)
-app.post('/api/product', ProductsCtrl.saveProduct)
-app.put('/api/product/:productId', ProductsCtrl.updateProduct)
-app.delete('/api/product/:productId', ProductsCtrl.deleteProduct)
+api.get('/product', ProductsCtrl.getProduct)
+api.get('/product/:productId', ProductsCtrl.getProductId)
+
+//agregamos auth para que solo usuarios autenticados puedan accesar a estas apis
+api.post('/product', ProductsCtrl.saveProduct)
+api.put('/product/:productId', ProductsCtrl.updateProduct)
+api.delete('/product/:productId', ProductsCtrl.deleteProduct)
+
+api.post('/signup', userCtrl.signUp)
+api.post('/signin',userCtrl.singIn)
+
+//al agregar el auth como parametro, protejemos nuestra ruta
+api.get('/private',auth,(req,res)=>{
+    res.status(200).send({ message: 'Tienes acceso'})
+})
 module.exports = api
     /**
      * http://localhost:3000/api/product

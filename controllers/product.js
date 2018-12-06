@@ -46,6 +46,8 @@ const updateProduct = (req, res) => {
     Product.findByIdAndUpdate(productId, update, (err, productUpdate) => {
         if (err) return res.status(500).send({ message: `error de actualizacion ${err}` })
         res.status(200).send({ product: productUpdate })
+            //example
+            //https://api-rest-crudric.herokuapp.com/api/product/5bf1003430bb440016664323
     })
 
 }
@@ -60,6 +62,9 @@ const deleteProduct = (req, res) => {
             res.status(200).send({ message: 'Producto Eliminado' })
         })
     })
+
+    //example
+    //https://api-rest-crudric.herokuapp.com/api/product/5bf1003430bb440016664323
 }
 
 module.exports = {
