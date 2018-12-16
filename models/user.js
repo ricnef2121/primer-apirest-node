@@ -58,4 +58,12 @@ if(!size){
 
 }
 
+UserSchema.methods.comparePassword = function (candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+      cb(err, isMatch)
+    });
+  }
+
+
+
 module.exports = mongoose.model('User',UserSchema);
