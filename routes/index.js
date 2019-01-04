@@ -17,7 +17,7 @@ api.put('/product/:productId', ProductsCtrl.updateProduct)
 api.delete('/product/:productId', ProductsCtrl.deleteProduct)
 
 api.post('/signup', userCtrl.signUp)
-api.post('/signin',userCtrl.singIn)
+api.post('/signin',userCtrl.singIn) 
 
 //Carreras
 api.post('/carreras',CarreraCtrl.saveCarrera)
@@ -25,6 +25,8 @@ api.get('/carreras',CarreraCtrl.getCarreras)
 api.get('/carreras/:carreraId', CarreraCtrl.getCarreraid)
 api.put('/carreras/:carreraId', CarreraCtrl.updateCarrera)
 api.delete('/carreras/:carreraId', CarreraCtrl.deleteCarrera)
+api.get('/carreras2/:carreraName',CarreraCtrl.getCarreraName)
+api.get('/carreraslike/:name',CarreraCtrl.getCarreraLike)
 //al agregar el auth como parametro, protejemos nuestra ruta
 api.get('/private',auth,(req,res)=>{
     res.status(200).send({ message: 'Tienes acceso'})

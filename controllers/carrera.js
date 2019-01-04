@@ -9,7 +9,7 @@ const saveCarrera = (req,res) => {
         if(err) return res.status(500).send({ message: `Error al guardar: ${err}` })
 
         return res.status(200).send({ datos })
-    });
+    }); 
 }
 
 const getCarreras =(req,res) => {
@@ -54,11 +54,37 @@ const deleteCarrera = (req,res) =>{
     })
 }
 
+const getCarreraName = (req,res) => {
+    let carreraName = req.params.carreraName;
+    Carrera.find({
+        name:`${carreraName}`
+    },(err,carrera)=>{
+        if(err) return res.status(500).send({message:`error de peticion ${err}`})
+        if(!carrera) return res.status(404).send({message:` no hay coincidencias ${err}`})
+
+        res.status(200).send({carrera:carrera})
+    })
+   }
+
+const getCarreraLike=(req,res)=>{
+    let name=req.params.name;
+    Carrera.find({
+        name: new RegExp(name,'i')
+    },(err,carrera)=>{
+        if(err) return res.status(500).send({message:`error de peticion ${err}`})
+        if(!carrera) return res.status(404).send({message:` no hay coincidencias ${err}`})
+
+        res.status(200).send({carrera:carrera})
+    })
+}
+
 module.exports = {
     saveCarrera,
     getCarreras,
     getCarreraid,
     updateCarrera,
-    deleteCarrera
+    deleteCarrera,
+    getCarreraName,
+    getCarreraLike
 
 }
