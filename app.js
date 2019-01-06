@@ -10,6 +10,7 @@ const api = require('./routes')
 
 //middlewares
 app.use(morgan('dev'));
+app.use(bodyParser.text({defaultCharset: 'utf-8'}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use((req, res, next) => {
