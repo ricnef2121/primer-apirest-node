@@ -62,7 +62,10 @@ const getPreguntaFactor = (req,res) => {
     Pregunta.find({
         //factor:new RegExp(`${preguntaFactor}`,'i')
         $text:{$search:preguntaFactor}
-    },(err,pregunta)=>{
+    },
+    
+    
+    (err,pregunta)=>{
         if(err) return res.status(500).send({message:`error de peticion ${err}`})
         if(!pregunta) return res.status(404).send({message:` no hay coincidencias ${err}`})
 

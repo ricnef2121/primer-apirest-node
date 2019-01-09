@@ -17,6 +17,7 @@ const PreguntaSchema= Schema({
     }
         
 })
+
 PreguntaSchema.index({ factor:1},{collation:{locale:'es',strength:2}})
 
 module.exports = mongoose.model('Pregunta',PreguntaSchema);

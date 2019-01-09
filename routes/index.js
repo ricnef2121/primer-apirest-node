@@ -5,10 +5,13 @@ const userCtrl = require('../controllers/user')
 const CarreraCtrl = require('../controllers/carrera');
 const FactorCtrl = require('../controllers/Factor');
 const PreguntaCtrl = require('../controllers/preguntas');
+const AuthorCtrl = require('../controllers/author');
 const auth = require('../middlewares/auth');
 const api = express.Router();
 
-
+api.post('/author',AuthorCtrl.saveAuthor)
+api.get('/author',AuthorCtrl.getAuthors)
+api.put('/author/:userId',AuthorCtrl.updateAuthor)
 
 api.get('/product', ProductsCtrl.getProduct)
 api.get('/product/:productId', ProductsCtrl.getProductId)
@@ -18,8 +21,12 @@ api.post('/product', ProductsCtrl.saveProduct)
 api.put('/product/:productId', ProductsCtrl.updateProduct)
 api.delete('/product/:productId', ProductsCtrl.deleteProduct)
 
+//Users
 api.post('/signup', userCtrl.signUp)
 api.post('/signin',userCtrl.singIn) 
+api.put('/user/:userId',userCtrl.updateDatosGenerales)
+api.put('/userDireccion/:userId',userCtrl.updateDireccion)
+api.get('/user',userCtrl.getUser)
 
 //Carreras
 api.post('/carreras',CarreraCtrl.saveCarrera)

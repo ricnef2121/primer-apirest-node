@@ -11,7 +11,7 @@ mongoose.connect(config.db, {useNewUrlParser: true},  (err, res) => {
     if (err) {
         return console.log(`Error al conectar a la base de datos: ${err}`)
     }
-    console.log('Conectados');
+    console.log('Conectados Jalando sin pedos');
 
     //listening**************************************
     app.listen(config.port, () => {

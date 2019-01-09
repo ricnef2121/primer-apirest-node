@@ -70,7 +70,9 @@ const getCarreraLike=(req,res)=>{
     let name=req.params.name;
     Carrera.find({
         name: new RegExp(name,'i')
-    },(err,carrera)=>{
+    },
+    
+    (err,carrera)=>{
         if(err) return res.status(500).send({message:`error de peticion ${err}`})
         if(!carrera) return res.status(404).send({message:` no hay coincidencias ${err}`})
 

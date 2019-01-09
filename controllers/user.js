@@ -46,7 +46,56 @@ function singIn (req,res){
 
 }
 
+const updateDatosGenerales = (req, res) => {
+    let userId = req.params.userId;
+    let update = req.body;
+   // User.findByIdAndUpdate
+    User.findByIdAndUpdate(userId,update,(err, userUpdate) =>{
+        if(err) return res.status(500).send({message:`error de peticion: ${err}`});
+        res.status(200).send({users:userUpdate})
+    })
+}
+
+const updateDireccion = (req, res) => {
+    let userId = req.params.userId;
+    let update = req.body.estado;
+   // User.findByIdAndUpdate
+    User.findByIdAndUpdate(userId,{$set:{direccion:{local:{estado:update}}}},(err, userUpdate) =>{
+        if(err) return res.status(500).send({message:`error de peticion: ${err}`});
+        res.status(200).send({users:userUpdate})
+    })
+    /*
+    let userId = req.params.userId;
+    let update = req.body.estado;
+
+    User.findByIdAndUpdate({_id:userId},{
+        $set:{
+            direccion:{local:{
+                estado:update
+            }}
+        }
+    },{upsert:true},
+    (err,user)=>{
+        if(err) return res.status(500).send({message:`error de peticion : ${err}`})
+        res.status(200).send({users:user})
+    })
+*/
+}
+
+const getUser = (req,res)=>{
+    User.find({},(err,users)=>{
+        if(err) return res.status(500).send({message:`error de peticion: ${err}`})
+        if(!users) return res.status(500).send({message:`no hay ususrios`})
+
+        res.status(200).send({users:users})
+    })
+}
+
+
 module.exports={
     signUp,
-    singIn
+    singIn,
+    updateDatosGenerales,
+    updateDireccion,
+    getUser
 }

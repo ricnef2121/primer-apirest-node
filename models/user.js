@@ -5,14 +5,33 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto');
 
-const UserSchema = new Schema({
+const UserSchema = new Schema({ 
     email: {type: String, unique: true, lowercase: true},
     displayName: String,
     avatar: String,
     password:{type: String, select: false},
     signupDate:{type:Date,default: Date.now()},
-    lastLogin: Date
+    lastLogin: Date,
+
+    p_Nombre:String,
+    s_Nombre:String,
+
+    direccion:[{
+        local:[{
+            estado:String,
+            colonia:String
+        }],
+        foraneo:[{
+            estado:String,
+            colonia:String
+        }]
+    }]
 })
+
+
+
+
+
 //Antes de que se guarde el usuario se ejecuta
 //la siguiente funcion
 UserSchema.pre('save', function(next){
