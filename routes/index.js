@@ -54,8 +54,8 @@ api.get('/preguntas/:preguntaId',PreguntaCtrl.getPreguntaId);
 api.put('/preguntas/:preguntaId',PreguntaCtrl.updatePregunta);
 api.delete('/preguntas/:preguntaId',PreguntaCtrl.deletePregunta);
 api.get('/preguntasFactor/:preguntaFactor',PreguntaCtrl.getPreguntaFactor);
-
-
+api.get('/preguntasBuscar/:name',PreguntaCtrl.getBuscarPregunta);
+ 
 //al agregar el auth como parametro, protejemos nuestra ruta
 api.get('/private',auth,(req,res)=>{
     res.status(200).send({ message: 'Tienes acceso'})

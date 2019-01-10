@@ -11,7 +11,7 @@ const savePregunta = (req,res) =>{
         if(err) res.status(500).send({ message:`error de peticion : ${err}`});
 
         return res.status(200).send({datos})
-    })
+    }) 
 }
 
 const getPreguntas = (req,res) =>{
@@ -62,10 +62,7 @@ const getPreguntaFactor = (req,res) => {
     Pregunta.find({
         //factor:new RegExp(`${preguntaFactor}`,'i')
         $text:{$search:preguntaFactor}
-    },
-    
-    
-    (err,pregunta)=>{
+    },(err,pregunta)=>{
         if(err) return res.status(500).send({message:`error de peticion ${err}`})
         if(!pregunta) return res.status(404).send({message:` no hay coincidencias ${err}`})
 
@@ -73,11 +70,26 @@ const getPreguntaFactor = (req,res) => {
     })
    }
 
+
+   const getBuscarPregunta=(req,res)=>{
+    let name = req.params.name;
+    Pregunta.find({
+        name: new RegExp(name,'i')
+    },(err,preguntas)=>{
+        if(err) return res.status(500).send({message:`error de peticion ${err}`})
+        if(!preguntas) return res.status(404).send({message:` no hay coincidencias ${err}`})
+
+        res.status(200).send({pregunta:preguntas})
+    })
+}
+
+
 module.exports = {
     savePregunta,
     getPreguntas,
     getPreguntaId,
     updatePregunta,
     deletePregunta,
-    getPreguntaFactor 
+    getPreguntaFactor,
+    getBuscarPregunta 
 }
