@@ -60,8 +60,27 @@ const updateDireccionLocal = (req, res) => {
     let userId = req.params.userId;
     let calle = req.body.calle;
     let update = req.body.estado;
+    let colinda_Cizquierda = req.body.colinda_Cizquierda;
+    let colinda_Cderecha = req.body.colinda_Cderecha;
+    let n_Exterior = req.body.n_Exterior;
+    let n_Interior = req.body.n_Interior;
+    let colonia = req.body.colonia;
+    let cp = req.body.cp;
+    let t_Casa = req.body.t_Casa;
+
 User.update({_id:userId},
-    {$set:{local:{estado:update,calle:calle}}},
+    {$set:{local:
+        {
+            estado:update,
+            calle:calle,
+            colinda_Cizquierda : colinda_Cizquierda,
+            colinda_Cderecha:colinda_Cderecha,
+            n_Exterior : n_Exterior,
+            n_Interior : n_Interior,
+            colonia : colonia,
+            cp :cp,
+            t_Casa : t_Casa
+        }}},
     (err, userUpdate) =>{
     if(err) return res.status(500).send({message:`error de peticion: ${err}`});
     res.status(200).send({users:userUpdate})
@@ -72,8 +91,27 @@ const updateDireccionForanea = (req,res)=>{
     let userId = req.params.userId;
     let calle= req.body.calle;
     let update = req.body.estado;
+    let colinda_Cizquierda = req.body.colinda_Cizquierda;
+    let colinda_Cderecha = req.body.colinda_Cderecha;
+    let n_Exterior = req.body.n_Exterior;
+    let n_Interior = req.body.n_Interior;
+    let colonia = req.body.colonia;
+    let cp = req.body.cp;
+    let t_Casa = req.body.t_Casa;
+
     User.findByIdAndUpdate(userId,
-        {$set:{foraneo:{estado:update,calle:calle}}},
+        {$set:{foraneo:{
+            estado:update,
+            calle:calle,
+            colinda_Cizquierda : colinda_Cizquierda,
+            colinda_Cderecha:colinda_Cderecha,
+            n_Exterior : n_Exterior,
+            n_Interior : n_Interior,
+            colonia : colonia,
+            cp :cp,
+            t_Casa : t_Casa
+
+        }}},
         (err, userUpdate) =>{
         if(err) return res.status(500).send({message:`error de peticion: ${err}`});
         res.status(200).send({users:userUpdate})
@@ -84,9 +122,21 @@ const updateDatosAcademicos = (req,res)=>{
     let userId = req.params.userId;
     let semestre= req.body.semestre;
     let turno = req.body.turno;
+    let grupo = req.body.grupo;
+    let carrera = req.body.carrera;
+    let t_baja = req.body.t_baja;
+    let matricula = req.body.matricula;
+    let i_fecha = req.body.i_fecha;
+
     User.findByIdAndUpdate(userId,
         {$set:{datosAcademicos:{
-            semestre:semestre,turno:turno
+            semestre:semestre,
+            turno:turno,
+            grupo:grupo,
+            carrera:carrera,
+            t_baja : t_baja,
+            matricula: matricula,
+            i_fecha : i_fecha
         }}},
         (err, userUpdate) =>{
         if(err) return res.status(500).send({message:`error de peticion: ${err}`});
