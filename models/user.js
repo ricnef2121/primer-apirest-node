@@ -18,7 +18,7 @@ const DatosAcademicosSchema = new Schema({
 const DireccionLocalSchema = new Schema({
     calle: String,
     estado: String,
-    colinda_Cizquiera: String,
+    colinda_Cizquierda: String,
     colinda_Cderecha: String,
     n_Exterior:String,
     n_Interior:String,
