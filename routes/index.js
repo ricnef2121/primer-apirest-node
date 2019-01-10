@@ -23,10 +23,13 @@ api.delete('/product/:productId', ProductsCtrl.deleteProduct)
 
 //Users
 api.post('/signup', userCtrl.signUp)
-api.post('/signin',userCtrl.singIn) 
+api.post('/signin',userCtrl.singIn)
+api.get('/user',userCtrl.getUser) 
 api.put('/user/:userId',userCtrl.updateDatosGenerales)
-api.put('/userDireccion/:userId',userCtrl.updateDireccion)
-api.get('/user',userCtrl.getUser)
+api.put('/userLocal/:userId',userCtrl.updateDireccionLocal)
+api.put('/userForaneo/:userId',userCtrl.updateDireccionForanea)
+api.put('/userAcademico/:userId',userCtrl.updateDatosAcademicos)
+
 
 //Carreras
 api.post('/carreras',CarreraCtrl.saveCarrera)

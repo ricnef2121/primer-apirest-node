@@ -56,31 +56,44 @@ const updateDatosGenerales = (req, res) => {
     })
 }
 
-const updateDireccion = (req, res) => {
+const updateDireccionLocal = (req, res) => {
     let userId = req.params.userId;
+    let calle = req.body.calle;
     let update = req.body.estado;
-   // User.findByIdAndUpdate
-    User.findByIdAndUpdate(userId,{$set:{direccion:{local:{estado:update}}}},(err, userUpdate) =>{
+User.update({_id:userId},
+    {$set:{local:{estado:update,calle:calle}}},
+    (err, userUpdate) =>{
+    if(err) return res.status(500).send({message:`error de peticion: ${err}`});
+    res.status(200).send({users:userUpdate})
+})
+}
+
+const updateDireccionForanea = (req,res)=>{
+    let userId = req.params.userId;
+    let calle= req.body.calle;
+    let update = req.body.estado;
+    User.findByIdAndUpdate(userId,
+        {$set:{foraneo:{estado:update,calle:calle}}},
+        (err, userUpdate) =>{
         if(err) return res.status(500).send({message:`error de peticion: ${err}`});
         res.status(200).send({users:userUpdate})
     })
-    /*
-    let userId = req.params.userId;
-    let update = req.body.estado;
-
-    User.findByIdAndUpdate({_id:userId},{
-        $set:{
-            direccion:{local:{
-                estado:update
-            }}
-        }
-    },{upsert:true},
-    (err,user)=>{
-        if(err) return res.status(500).send({message:`error de peticion : ${err}`})
-        res.status(200).send({users:user})
-    })
-*/
 }
+
+const updateDatosAcademicos = (req,res)=>{
+    let userId = req.params.userId;
+    let semestre= req.body.semestre;
+    let turno = req.body.turno;
+    User.findByIdAndUpdate(userId,
+        {$set:{datosAcademicos:{
+            semestre:semestre,turno:turno
+        }}},
+        (err, userUpdate) =>{
+        if(err) return res.status(500).send({message:`error de peticion: ${err}`});
+        res.status(200).send({users:userUpdate})
+    })
+}
+
 
 const getUser = (req,res)=>{
     User.find({},(err,users)=>{
@@ -96,6 +109,8 @@ module.exports={
     signUp,
     singIn,
     updateDatosGenerales,
-    updateDireccion,
+    updateDireccionForanea,
+    updateDireccionLocal,
+    updateDatosAcademicos,
     getUser
 }

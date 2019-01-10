@@ -1,9 +1,15 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const DireccionSchema = new Schema({
+    estado: String,
+    colonia:String
+})
+
 const BookSchema = new Schema({
     title:String,
-    pages:Number
+    pages:Number,
+    local:[DireccionSchema]
 })
 
 
