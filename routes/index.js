@@ -29,6 +29,7 @@ api.put('/user/:userId',userCtrl.updateDatosGenerales)
 api.put('/userLocal/:userId',userCtrl.updateDireccionLocal)
 api.put('/userForaneo/:userId',userCtrl.updateDireccionForanea)
 api.put('/userAcademico/:userId',userCtrl.updateDatosAcademicos)
+api.get('/userType/:email',userCtrl.getTypeUser)
 
 
 //Carreras

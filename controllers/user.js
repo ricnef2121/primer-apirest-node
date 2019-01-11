@@ -38,6 +38,7 @@ function singIn (req,res){
       //de lo contrario si existe entonces se logea, manda un mensaje y el token
       req.user= user 
       res.status(200).send({
+          user:user.email,
           message: 'se ha logeado correctamente',
           token: service.createToken(user)})
         });
@@ -118,6 +119,9 @@ const updateDireccionForanea = (req,res)=>{
     })
 }
 
+
+
+
 const updateDatosAcademicos = (req,res)=>{
     let userId = req.params.userId;
     let semestre= req.body.semestre;
@@ -155,6 +159,19 @@ const getUser = (req,res)=>{
 }
 
 
+const getTypeUser = (req,res) => {
+    let email = req.params.email;
+    User.find({
+        email:`${email}`
+    },(err,user)=>{
+        if(err) return res.status(500).send({message:`error de peticion ${err}`})
+        if(!user) return res.status(404).send({message:` no hay coincidencias ${err}`})
+
+        res.status(200).send({user:user})
+    })
+   }
+
+
 module.exports={
     signUp,
     singIn,
@@ -162,5 +179,6 @@ module.exports={
     updateDireccionForanea,
     updateDireccionLocal,
     updateDatosAcademicos,
-    getUser
+    getUser,
+    getTypeUser
 }
