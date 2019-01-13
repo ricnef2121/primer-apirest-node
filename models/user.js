@@ -36,7 +36,9 @@ const UserSchema = new Schema({
     password: { type: String, select: false },
     signupDate: { type: Date, default: Date.now() },
     lastLogin: Date,
-    typeUser: { type: String, default: 'estudiante' },
+    typeUser: { type: String,
+                default: 'estudiante',
+                enum: ['estudiante', 'administrador', 'superadministrador'] },
 
     p_Nombre: String,
     s_Nombre: String,
