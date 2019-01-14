@@ -37,7 +37,8 @@ function singIn(req, res) {
             //de lo contrario si existe entonces se logea, manda un mensaje y el token
             req.user = user
             res.status(200).send({
-                user: user.typeUser,
+                user: user.typeUser,                
+                id:user._id,
                 message: 'se ha logeado correctamente',
                 token: service.createToken(user)
             })
