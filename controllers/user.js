@@ -182,6 +182,7 @@ const getTypeUser = (req, res) => {
 }
 
 const getUserCountMujerStudent = (req, res) => {
+    //se cuentan los usuarios donde el tipo de usuario se igual a estudiante y sexo sea igual a mujer
     User.count({ typeUser: "estudiante", sexo: "Mujer" }, (err, count) => {
         if (err) return res.status(500).send({ message: `error de peticion: ${err}` })
         res.status(200).send({ Numero_de_mujeres: count })
