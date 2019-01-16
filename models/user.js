@@ -5,6 +5,18 @@ const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 const crypto = require('crypto');
 
+const ResultadosSchema = new Schema({
+    pregunta : String,
+    response : { 
+        type : String,
+        default:false,
+        enum:[
+            true,
+            false
+        ]}
+})
+
+
 const DatosAcademicosSchema = new Schema({
     semestre: String,
     turno: String,
@@ -46,12 +58,17 @@ const UserSchema = new Schema({
     a_Materno: String,
     edad: Number,
     telefono: String,
-    sexo: { type: String, enum: ['Hombre', 'Mujer'] },
-    residente: { type: String, enum: ['Local', 'Foraneo'] },
+    sexo: { type: String, 
+        //enum: ['Hombre', 'Mujer'] 
+    },
+    residente: { type: String, 
+       // enum: ['Local', 'Foraneo'] 
+    },
 
     local: [DireccionLocalSchema],
     foraneo: [DireccionLocalSchema],
-    datosAcademicos:[DatosAcademicosSchema]
+    datosAcademicos:[DatosAcademicosSchema],
+    resultados:[ResultadosSchema]
 
 })
 
