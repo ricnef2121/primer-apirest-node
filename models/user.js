@@ -32,6 +32,7 @@ const DireccionLocalSchema = new Schema({
     estado: String,
     colinda_Cizquierda: String,
     colinda_Cderecha: String,
+    colinda_Ctrasera:String,
     n_Exterior:String,
     n_Interior:String,
     colonia:String,

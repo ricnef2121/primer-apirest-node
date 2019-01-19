@@ -1,5 +1,6 @@
 'use strict'
 const express = require('express');
+//mandamos a llamar los controladores(metodos o funciones) respectivos 
 const ProductsCtrl = require('../controllers/product')
 const userCtrl = require('../controllers/user')
 const CarreraCtrl = require('../controllers/carrera');
@@ -67,21 +68,35 @@ api.get('/carreras2/:carreraName',CarreraCtrl.getCarreraName)
 api.get('/carreraslike/:name',CarreraCtrl.getCarreraLike)
 
 //Factores
+//agrega un nuevo factor
 api.post('/factores',FactorCtrl.saveFactor);
+//devuelve todos los factores almacenados
 api.get('/factores',FactorCtrl.getFactores);
+//devuelve un factor por su id
 api.get('/factores/:factorId',FactorCtrl.getFactorId);
+//modifica un factor en especifico por su id
 api.put('/factores/:factorId',FactorCtrl.updateFactor);
+//elimina un factor en especifico por su id
 api.delete('/factores/:factorId',FactorCtrl.deleteFactor);
 
 //Preguntas
+//agrega una nueva pregunta
 api.post('/preguntas',PreguntaCtrl.savePregunta);
+//devuelve todas las preguntas almacenadas
 api.get('/preguntas',PreguntaCtrl.getPreguntas);
+//devulve una pregunta por su id
 api.get('/preguntas/:preguntaId',PreguntaCtrl.getPreguntaId);
+//modifica una pregunta por su id
 api.put('/preguntas/:preguntaId',PreguntaCtrl.updatePregunta);
+//elimina una pregunta por su id
 api.delete('/preguntas/:preguntaId',PreguntaCtrl.deletePregunta);
+//devuelve las preguntas que concidad con el factor que se mande como parametro
 api.get('/preguntasFactor/:preguntaFactor',PreguntaCtrl.getPreguntaFactor);
+//devulve todas la preguntas que coincidad con lo que se mande como parametro
 api.get('/preguntasBuscar/:name',PreguntaCtrl.getBuscarPregunta);
  
+
+
 //al agregar el auth como parametro, protejemos nuestra ruta
 api.get('/private',auth,(req,res)=>{
     res.status(200).send({ message: 'Tienes acceso'})
