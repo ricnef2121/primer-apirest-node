@@ -247,11 +247,11 @@ const getPreguntaByFactor =(req,res)=>{
         preguntas.forEach((q)=>{
             if(err) return res.status(500).send({message:`error de peticion : ${err}`})
             if(!preguntas) return res.status(404).send({message:`no hay coincidencias`})
-            let i = arregle.push(q)
-            res.status(200).send({
-                preguntas:i
-            })
+            arregle.push(q)           
 
+        })
+        res.status(200).send({
+            preguntas:arregle
         })
     })
     
