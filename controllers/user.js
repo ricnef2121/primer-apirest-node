@@ -1,5 +1,5 @@
 'use strict'
-
+const Pregunta = require('../models/preguntas');
 const User = require('../models/user');
 const service = require('../services');
 
@@ -39,6 +39,7 @@ function singIn(req, res) {
             res.status(200).send({
                 user: user.typeUser,                
                 id:user._id,
+                email:user.email,
                 message: 'se ha logeado correctamente',
                 token: service.createToken(user)
             })
@@ -90,6 +91,7 @@ const updateDireccionLocal = (req, res) => {
             res.status(200).send({ users: userUpdate })
         })
 }
+
 
 const updateDireccionForanea = (req, res) => {
     let userId = req.params.userId;
@@ -210,6 +212,56 @@ const getUserCountAdministrador = (req, res) => {
         res.status(200).send({ Numero_de_administrador: count })
     })
 }
+/*
+const pushRespuestas = (req,res)=>{
+
+    let userId = req.params.userId;
+    let largo = req.body;
+   // let len = largo.lenght();
+    let pregunta = req.body.pregunta;
+    let response = req.body.response;
+    User.findByIdAndUpdate(userId,
+         {
+             $push:{
+                 resultados:{
+                    pregunta:pregunta,
+                    response: response
+                 }
+             }
+         },
+          (err, userUpdate) => {
+        if (err) return res.status(500).send({ message: `error de peticion: ${err}` });
+        res.status(200).send({ users: userUpdate })
+    })
+
+}
+
+*/
+const getPreguntaByFactor =(req,res)=>{
+    let factor = req.params.factor;
+    let arregle =[];
+    Pregunta.find({
+        factor: factor
+        //new RegExp(name,'i')
+    }).exec((err,preguntas)=>{
+        preguntas.forEach((q)=>{
+            if(err) return res.status(500).send({message:`error de peticion : ${err}`})
+            if(!preguntas) return res.status(404).send({message:`no hay coincidencias`})
+            let i = arregle.push(q)
+            res.status(200).send({
+                preguntas:i
+            })
+
+        })
+    })
+    
+    /*,(err,preguntas)=>{
+        if(err) return res.status(500).send({message:`error de peticion ${err}`})
+        if(!preguntas) return res.status(404).send({message:` no hay coincidencias ${err}`})
+        res.status(200).send({pregunta:preguntas})
+    })*/
+}
+
 
 
 module.exports = {
@@ -224,5 +276,7 @@ module.exports = {
     getUserCountMujerStudent,
     getUserCountHombreStudent,
     getUserCountStudent,
-    getUserCountAdministrador
+    getUserCountAdministrador,
+  //  pushRespuestas,
+    getPreguntaByFactor
 }

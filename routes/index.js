@@ -38,7 +38,11 @@ api.put('/userForaneo/:userId',userCtrl.updateDireccionForanea)
 //actualiza los datos de un usuario agregando nuevos datos academicos
 api.put('/userAcademico/:userId',userCtrl.updateDatosAcademicos)
 //busca un usuario por su email
-api.get('/userType/:email',userCtrl.getTypeUser)
+api.get('/userType/:email',userCtrl.getTypeUser);
+//devuelve lo insertado en el body
+//api.put('/userRes/:userId',userCtrl.pushRespuestas);
+//devuelve preguntas acorde al factor que se pase por parametro
+api.get('/userPregByFac/:factor',userCtrl.getPreguntaByFactor);
 
 //graficas
 //cuenta cuantos usarios del tipo estudiante son mujer
