@@ -7,6 +7,7 @@ const crypto = require('crypto');
 
 const ResultadosSchema = new Schema({
     pregunta : String,
+    factor: String,
     response : { 
         type : String,
         default:false,

@@ -212,19 +212,21 @@ const getUserCountAdministrador = (req, res) => {
         res.status(200).send({ Numero_de_administrador: count })
     })
 }
-/*
+
 const pushRespuestas = (req,res)=>{
 
     let userId = req.params.userId;
-    let largo = req.body;
+    //let largo = req.body;
    // let len = largo.lenght();
     let pregunta = req.body.pregunta;
     let response = req.body.response;
+    let factor = req.body.factor;
     User.findByIdAndUpdate(userId,
          {
              $push:{
                  resultados:{
                     pregunta:pregunta,
+                    factor : factor,
                     response: response
                  }
              }
@@ -236,7 +238,6 @@ const pushRespuestas = (req,res)=>{
 
 }
 
-*/
 const getPreguntaByFactor =(req,res)=>{
     let factor = req.params.factor;
     let arregle =[];
@@ -277,6 +278,6 @@ module.exports = {
     getUserCountHombreStudent,
     getUserCountStudent,
     getUserCountAdministrador,
-  //  pushRespuestas,
+    pushRespuestas,
     getPreguntaByFactor
 }

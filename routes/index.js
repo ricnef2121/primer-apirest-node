@@ -39,8 +39,8 @@ api.put('/userForaneo/:userId',userCtrl.updateDireccionForanea)
 api.put('/userAcademico/:userId',userCtrl.updateDatosAcademicos)
 //busca un usuario por su email
 api.get('/userType/:email',userCtrl.getTypeUser);
-//devuelve lo insertado en el body
-//api.put('/userRes/:userId',userCtrl.pushRespuestas);
+//inserta una respuesta
+api.put('/userRes/:userId',userCtrl.pushRespuestas);
 //devuelve preguntas acorde al factor que se pase por parametro
 api.get('/userPregByFac/:factor',userCtrl.getPreguntaByFactor);
 
