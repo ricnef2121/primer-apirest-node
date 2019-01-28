@@ -64,7 +64,7 @@ const getCarreraName = (req,res) => {
 
         res.status(200).send({carrera:carrera})
     })
-   }
+   } 
 
 const getCarreraLike=(req,res)=>{
     let name=req.params.name;

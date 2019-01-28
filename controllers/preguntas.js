@@ -52,16 +52,27 @@ const deletePregunta = (req,res)=>{
         pregunta.remove(err=>{
             if(err) return res.status(500).send({message:`error al borrar la carrera: ${preguntaId}`})
             res.status(200).send({message:`Carrera ${preguntaId} elimida correctamente`})
-        })
+        }) 
     })
 }
+/**
+ * 
+ * const getCarreraName = (req,res) => {
+    let carreraName = req.params.carreraName;
+    Carrera.find({
+        name:`${carreraName}`
+    },(err,carrera)=>{
+        if(err) return res.status(500).send({message:`error de peticion ${err}`})
+        if(!carrera) return res.status(404).send({message:` no hay coincidencias ${err}`})
 
+        res.status(200).send({carrera:carrera})
+    })
+   } 
+ */
 const getPreguntaFactor = (req,res) => {
     let preguntaFactor = req.params.preguntaFactor;
-    
     Pregunta.find({
-        //factor:new RegExp(`${preguntaFactor}`,'i')
-        $text:{$search:preguntaFactor}
+        factor : preguntaFactor
     },(err,pregunta)=>{
         if(err) return res.status(500).send({message:`error de peticion ${err}`})
         if(!pregunta) return res.status(404).send({message:` no hay coincidencias ${err}`})
