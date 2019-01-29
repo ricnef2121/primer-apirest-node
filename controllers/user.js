@@ -184,34 +184,6 @@ const getTypeUser = (req, res) => {
     })
 }
 
-const getUserCountMujerStudent = (req, res) => {
-    //se cuentan los usuarios donde el tipo de usuario se igual a estudiante y sexo sea igual a mujer
-    User.count({ typeUser: "estudiante", sexo: "Mujer" }, (err, count) => {
-        if (err) return res.status(500).send({ message: `error de peticion: ${err}` })
-        res.status(200).send({ Numero_de_mujeres: count })
-    })
-}
-
-const getUserCountHombreStudent = (req, res) => {
-    User.count({ typeUser: "estudiante", sexo: "Hombre" }, (err, count) => {
-        if (err) return res.status(500).send({ message: `error de peticion: ${err}` })
-        res.status(200).send({ Numero_de_hombres: count })
-    })
-}
-
-const getUserCountStudent = (req, res) => {
-    User.count({ typeUser: "estudiante" }, (err, count) => {
-        if (err) return res.status(500).send({ message: `error de peticion: ${err}` })
-        res.status(200).send({ Numero_de_estudiantes: count })
-    })
-}
-
-const getUserCountAdministrador = (req, res) => {
-    User.count({ typeUser: "administrador" }, (err, count) => {
-        if (err) return res.status(500).send({ message: `error de peticion: ${err}` })
-        res.status(200).send({ Numero_de_administrador: count })
-    })
-}
 
 const pushRespuestas = (req,res)=>{
 
@@ -255,13 +227,9 @@ const getPreguntaByFactor =(req,res)=>{
             preguntas:arregle
         })
     })
-    
-    /*,(err,preguntas)=>{
-        if(err) return res.status(500).send({message:`error de peticion ${err}`})
-        if(!preguntas) return res.status(404).send({message:` no hay coincidencias ${err}`})
-        res.status(200).send({pregunta:preguntas})
-    })*/
 }
+
+
 
 
 
@@ -274,10 +242,6 @@ module.exports = {
     updateDatosAcademicos,
     getUser,
     getTypeUser,
-    getUserCountMujerStudent,
-    getUserCountHombreStudent,
-    getUserCountStudent,
-    getUserCountAdministrador,
     pushRespuestas,
     getPreguntaByFactor
 }

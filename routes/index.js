@@ -7,6 +7,7 @@ const CarreraCtrl = require('../controllers/carrera');
 const FactorCtrl = require('../controllers/Factor');
 const PreguntaCtrl = require('../controllers/preguntas');
 const AuthorCtrl = require('../controllers/author');
+const GraficasCtrl = require('../controllers/graficas');
 const auth = require('../middlewares/auth');
 const api = express.Router();
 
@@ -46,13 +47,32 @@ api.get('/userPregByFac/:factor',userCtrl.getPreguntaByFactor);
 
 //graficas
 //cuenta cuantos usarios del tipo estudiante son mujer
-api.get('/userMS',userCtrl.getUserCountMujerStudent);
+api.get('/userMS',GraficasCtrl.getUserCountMujerStudent);
 //cuenta cuantos usuarios del tipo estudiante son hombres
-api.get('/userHS',userCtrl.getUserCountHombreStudent);
+api.get('/userHS',GraficasCtrl.getUserCountHombreStudent);
+//devuelve la variedad de sexos que hay y cuantos usuarios del tipo estudiante hay por cada genero
+api.get('/userByGroupSexo',GraficasCtrl.getSUserCountStudentByGroupSexo);
 //cuenta cuantos usuarios son en total del tipo estudiante
-api.get('/userEstudiante',userCtrl.getUserCountStudent);
+api.get('/userEstudiante',GraficasCtrl.getUserCountStudent);
 //cuenta cuantos usuarios son del tipo admnistrador
-api.get('/userAdministrador',userCtrl.getUserCountAdministrador);
+api.get('/userAdministrador',GraficasCtrl.getUserCountAdministrador);
+///devuelve la variedad de coloniasLocales que hay y cuantos usuarios del tipo estudiante hay por cada coloniaslocales
+api.get('/userCountLocal',GraficasCtrl.getUserColoniasLocal)
+///devuelve la variedad de coloniasForaneas que hay y cuantos usuarios del tipo estudiante hay por cada coloniasforaneas
+api.get('/userCountForaneo',GraficasCtrl.getUserColoniasForaneo)
+
+///devuelve la variedad de fechas acorde al tipo de usuario estudiante y cuantas usuarios coiniciden en cada fecha
+api.get('/userCountFecha',GraficasCtrl.getUserFecha)
+///devuelve la variedad de años acorde al tipo de usuario estudiante y cuantas usuarios coiniciden en cada año
+api.get('/userCountYear',GraficasCtrl.getUserYear)
+///devuelve la variedad de meseses acorde al tipo de usuario estudiante y cuantas usuarios coiniciden en cada mes
+api.get('/userCountMonth',GraficasCtrl.getUserMonth)
+///devuelve la variedad de edades acorde al tipo de usuario estudiante y cuantas usuarios coiniciden en cada edad
+api.get('/userCountEdad',GraficasCtrl.getUserEdades)
+///---------------------------------------------------------------
+api.get('/userCompYear',GraficasCtrl.getUserComparacion)
+///devuelve la variedad de dias acorde al tipo de usuario estudiante y cuantas usuarios coiniciden en cada dia
+api.get('/userCountDay',GraficasCtrl.getUserDayOfYear)
 
 
 //Carreras
