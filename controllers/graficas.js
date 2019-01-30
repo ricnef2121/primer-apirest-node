@@ -7,15 +7,8 @@ const User = require('../models/user');
 //esta funcion simplifica las siguientes dos
 const getSUserCountStudentByGroupSexo = (req,res) => {
     User.aggregate([
-        {
-            $match: {
-                typeUser: "estudiante"},            
-        },
-        {
-            $group:{
-                _id:'$sexo',                
-                conteo:{$sum:1}
-            }
+        { $match: {typeUser: "estudiante"}},
+        { $group:{ _id:'$sexo',conteo:{$sum:1}}
         }
     ],(err,aggregate)=>{
         if(err) return res.status(500).send({message:`error de peticion: ${err}`})
@@ -57,11 +50,11 @@ const getUserCountAdministrador = (req, res) => {
 
 const getUserColoniasLocal = (req,res) => {
     User.aggregate([
-        {
-            $group:{
+        { $match: { typeUser: "estudiante"}},
+        { $group:{ 
                 _id:'$local.colonia',                
                 conteo:{$sum:1}
-            }
+                 }
         }
     ],(err,aggregate)=>{
         if(err) return res.status(500).send({message:`error de peticion: ${err}`})
@@ -72,6 +65,7 @@ const getUserColoniasLocal = (req,res) => {
 
 const getUserColoniasForaneo = (req,res) => {
     User.aggregate([
+        { $match: {typeUser: "estudiante"}},
         {
             $group:{
                 _id:'$foraneo.colonia',         
