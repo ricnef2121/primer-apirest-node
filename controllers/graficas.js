@@ -63,6 +63,7 @@ const getUserColoniasLocal = (req,res) => {
 }
 
 
+//devuelve todos los municipios de forma separada y cuantos estudiantes peretenecen a ese municipio que sean residentes foraneos
 const getUserColoniasForaneo = (req,res) => {
     User.aggregate([
         { $match: {typeUser: "estudiante",residente:"Foraneo"},},
