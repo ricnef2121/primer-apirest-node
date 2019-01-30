@@ -50,7 +50,7 @@ const getUserCountAdministrador = (req, res) => {
 
 const getUserColoniasLocal = (req,res) => {
     User.aggregate([
-        { $match: { typeUser: "estudiante"}},
+        { $match: { typeUser: "estudiante",residente:"Local"}},
         { $group:{ 
                 _id:'$local.colonia',                
                 conteo:{$sum:1}
@@ -65,7 +65,7 @@ const getUserColoniasLocal = (req,res) => {
 
 const getUserColoniasForaneo = (req,res) => {
     User.aggregate([
-        { $match: {typeUser: "estudiante"}},
+        { $match: {typeUser: "estudiante",residente:"Foraneo"},},
         {
             $group:{
                 _id:'$foraneo.colonia',         
