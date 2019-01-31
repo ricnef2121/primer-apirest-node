@@ -79,7 +79,7 @@ const getUserColoniasForaneo = (req,res) => {
     })
 }
 
-
+/*
 const getUserFecha = (req,res) => {
     const current = Date.now();
     
@@ -112,7 +112,7 @@ const getUserFecha = (req,res) => {
         })
     })
 }
-
+*/
 
 const getUserDayOfYear = (req,res) => {
     User.aggregate([
@@ -194,6 +194,184 @@ const getUserComparacion = (req,res) => {
 }
 
 
+////////// Primera Gráfica/////////////////
+const getUserResultados = (req,res) => {
+    User.aggregate([
+
+        { $unwind: '$resultados' },
+        { $project: { resultados: 1, sexo: 1, factor: '$resultados.factor' } },
+        {
+            $group:{
+                _id:{factor:'$resultados.factor', sexo:'$sexo'},                 
+                conteo:{$sum:1}
+            }
+        },
+
+        { $project: { _id: 0, conteo: 1, factor: 1, sexo: 1, factor: '$_id.factor' , sexo:'$_id.sexo' }},
+
+
+       { 
+            $group:{
+               _id:{factor:'$factor'}, 
+               conteoTotal:{$sum:"$conteo"},  
+               datos:{
+                $push: {
+                  sexo: "$sexo",
+                  conteo: "$conteo"
+                 
+                }             
+             }
+        }},
+      
+        { $project: { _id: 0, factor: 1, datos: 1, conteoTotal:1, factor: '$_id.factor'  }},
+
+    ],(err,aggregate)=>{
+        if(err) return res.status(500).send({message:`error de peticion: ${err}`})
+        res.json(aggregate)
+    })
+}
+
+
+//////////////// Segunda Gráfica ////////////////////
+
+const getUserSemestre = (req,res) => {
+    User.aggregate([
+     
+        { $unwind: '$resultados' },
+        { $unwind: '$datosAcademicos'},
+        { $project: { resultados: 1, datosAcademicos: 1, factor: '$resultados.factor', semestre: '$datosAcademicos.semestre' } },
+        
+       {
+            $group:{
+                _id:{semestre: '$datosAcademicos.semestre', factor: '$resultados.factor'},      
+                conteo:{$sum:1},           
+            }
+        },
+
+        { $project: { _id: 0, conteo: 1, factor: 1, semestre: 1, factor: '$_id.factor' , semestre:'$_id.semestre' }},
+      
+        { 
+            $group:{
+               _id:{semestre:'$semestre'}, 
+               conteoTotal:{$sum:"$conteo"},  
+               datos:{
+                $push: {
+                  factor: "$factor",
+                  conteo: "$conteo"
+                }             
+             }
+        }},
+
+      { $project: { _id: 0, semestre: 1, datos: 1, conteoTotal:1, semestre: '$_id.semestre'  }},
+
+    ],(err,aggregate)=>{
+        if(err) return res.status(500).send({message:`error de peticion: ${err}`})
+        res.json(aggregate)
+    })
+}
+
+
+//////////////// Tercera Gráfica ////////////////////
+
+const getUserFactor = (req,res) => {
+    let factors = req.params.factors;
+    User.aggregate([
+        //{$match: {typeUser: "estudiante", factor:factors}},
+        { $unwind: '$resultados' },
+        
+        { $project: { resultados: 1, sexo: 1, factor: '$resultados.factor', pregunta: '$resultado.pregunta' } },
+        {$match: { factor:factors}},
+      {
+            $group:{
+                _id:{pregunta: '$resultados.pregunta', factor: '$resultados.factor', sexo: '$sexo'},      
+                conteo:{$sum:1},           
+            }
+        },
+
+    
+        { $project: {_id: 1,  conteo: 1, sexo: 1, factor: 1, pregunta: 1, factor: '$_id.factor' , pregunta:'$_id.pregunta',sexo:'$_id.sexo' }},
+
+        { 
+            $group:{
+               _id:{pregunta:'$pregunta',factor: "$factor"}, 
+               conteoTotal:{$sum:"$conteo"},  
+               datos:{
+                   $push: {
+                       //factor: "$factor",
+                       sexo: "$sexo",
+                       conteo: "$conteo"
+                   }  
+                }                
+             }},
+    
+    { $project: { _id: 0,
+                 factor: 1,
+                 pregunta: 1, 
+                 datos: 1, 
+                 conteoTotal:1,
+                 pregunta: '$_id.pregunta', 
+                 factor :"$_id.factor" }},
+                
+    
+    { 
+        $group:{
+           _id:{factor:'$factor'}, 
+           // conteoTotal:{$sum:"$conteo"},  
+           preguntas:{
+               $push: {
+                   pregunta: "$pregunta",
+                   datos: "$datos",
+                   conteoTotal: "$conteoTotal"
+               }  
+            }                
+         }
+    },
+ 
+    //{$match: { factor:"Personal"}},
+
+    { $project: { _id: 0,
+        factor: 1,
+        preguntas: 1,  
+        factor :"$_id.factor" }},
+
+    //{$match: {$and : [{typeUser: "estudiante"}, {factor:factors}]}},
+
+    ],(err,aggregate)=>{
+        if(err) return res.status(500).send({message:`error de peticion: ${err}`})
+        res.json(aggregate)
+    })
+}
+
+
+
+const getUserFecha = (req,res) => {
+    var moment = new Date();
+    var mes1 = moment.getMonth();
+    var mes1 = mes1 + 1;
+    
+    User.aggregate([
+        { $project: { signupDate: 1, typeUser: 1,mes: { $month: "$signupDate" }, año: { $year: "$signupDate" }}},
+  
+        {
+            $match:{$and : [{typeUser: "estudiante"}, {mes:mes1},{año:2019}]}},
+ //               $and : [
+   //             {typeUser: "estudiante"},
+     //           $expr : {signupDate:{$month:"$2009-01-01"}
+        
+        {
+            $group:{
+                _id:{ dia: { $dayOfMonth: "$signupDate"}, mes: { $month: "$signupDate" }, año: { $year: "$signupDate" }},         
+                conteo:{$sum:1}
+            }
+        },
+    ],(err,aggregate)=>{
+        if(err) return res.status(500).send({message:`error de peticion: ${err}`})
+        res.json(aggregate)
+    })
+}
+
+
+
 module.exports = {
     getSUserCountStudentByGroupSexo,
     getUserCountMujerStudent,
@@ -202,10 +380,14 @@ module.exports = {
     getUserCountAdministrador,
     getUserColoniasLocal,
     getUserColoniasForaneo,
-    getUserFecha,
     getUserYear,
     getUserMonth,
     getUserEdades,
     getUserComparacion,
-    getUserDayOfYear
+    getUserDayOfYear,
+
+    getUserResultados,
+    getUserSemestre,
+    getUserFactor,
+    getUserFecha
 }

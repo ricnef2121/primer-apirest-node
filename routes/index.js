@@ -62,7 +62,7 @@ api.get('/userCountLocal',GraficasCtrl.getUserColoniasLocal)
 api.get('/userCountForaneo',GraficasCtrl.getUserColoniasForaneo)
 
 ///devuelve la variedad de fechas acorde al tipo de usuario estudiante y cuantas usuarios coiniciden en cada fecha
-api.get('/userCountFecha',GraficasCtrl.getUserFecha)
+////api.get('/userCountFecha',GraficasCtrl.getUserFecha)
 ///devuelve la variedad de años acorde al tipo de usuario estudiante y cuantas usuarios coiniciden en cada año
 api.get('/userCountYear',GraficasCtrl.getUserYear)
 ///devuelve la variedad de meseses acorde al tipo de usuario estudiante y cuantas usuarios coiniciden en cada mes
@@ -73,7 +73,13 @@ api.get('/userCountEdad',GraficasCtrl.getUserEdades)
 api.get('/userCompYear',GraficasCtrl.getUserComparacion)
 ///devuelve la variedad de dias acorde al tipo de usuario estudiante y cuantas usuarios coiniciden en cada dia
 api.get('/userCountDay',GraficasCtrl.getUserDayOfYear)
-
+ 
+///////////////////////////// Consultas para gráficas////////////////////////
+api.get('/userFechasCount',GraficasCtrl.getUserFecha);
+//api.get('/userEdades',userCtrl.getUserEdades);
+api.get('/userResCount',GraficasCtrl.getUserResultados);
+api.get('/userSemCount',GraficasCtrl.getUserSemestre);
+api.get('/userPregCount/:factors',GraficasCtrl.getUserFactor);
 
 //Carreras
 //agrega una nueva carrera
