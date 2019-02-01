@@ -79,40 +79,6 @@ const getUserColoniasForaneo = (req,res) => {
     })
 }
 
-/*
-const getUserFecha = (req,res) => {
-    const current = Date.now();
-    
-    //console.log('fecha',current)
-    User.aggregate([
-        {
-            $match: {
-                typeUser: "estudiante",
-                //signupDate : { $month: "$signupDate" }
-               // signupDate: new Date(2019, 1, 28)
-               ///sexo: "Hombre",
-            //signupDate:{"$gte": new Date(2019, 1, 27), "$lt": new Date(2019, 1, 29)}
-            },
-        
-        },
-        {            
-            $group:{
-                _id:{ dia:{$dayOfMonth: "$signupDate"},
-                     mes: { $month: "$signupDate" },
-                     año: { $year: "$signupDate" }
-                    },         
-                conteo:{$sum:1},                
-            }
-        }
-    ],(err,aggregate)=>{
-        if(err) return res.status(500).send({message:`error de peticion: ${err}`})
-        //res.json(aggregate)
-        res.status(200).send({
-            data:aggregate
-        })
-    })
-}
-*/
 
 const getUserDayOfYear = (req,res) => {
     User.aggregate([
@@ -345,19 +311,20 @@ const getUserFactor = (req,res) => {
 
 
 const getUserFecha = (req,res) => {
-    var moment = new Date();
+   /* var moment = new Date();
     var mes1 = moment.getMonth();
     var mes1 = mes1 + 1;
-    
+    var year = moment.getFullYear();*/
+    //var moment = new Date();
+    //var mes1 = moment.getMonth();
+    var mes1 =  1;
+    var year = 2019;
+   
     User.aggregate([
         { $project: { signupDate: 1, typeUser: 1,mes: { $month: "$signupDate" }, año: { $year: "$signupDate" }}},
   
         {
-            $match:{$and : [{typeUser: "estudiante"}, {mes:mes1},{año:2019}]}},
- //               $and : [
-   //             {typeUser: "estudiante"},
-     //           $expr : {signupDate:{$month:"$2009-01-01"}
-        
+            $match:{$and : [{typeUser: "estudiante"}, {mes:mes1},{año:year}]}},
         {
             $group:{
                 _id:{ dia: { $dayOfMonth: "$signupDate"}, mes: { $month: "$signupDate" }, año: { $year: "$signupDate" }},         

@@ -75,7 +75,7 @@ api.get('/userCompYear',GraficasCtrl.getUserComparacion)
 api.get('/userCountDay',GraficasCtrl.getUserDayOfYear)
  
 ///////////////////////////// Consultas para gráficas////////////////////////
-api.get('/userFechasCount',GraficasCtrl.getUserFecha);
+api.get('/userFechas',GraficasCtrl.getUserFecha);
 api.get('/userResCount',GraficasCtrl.getUserResultados);
 api.get('/userSemCount',GraficasCtrl.getUserSemestre);
 api.get('/userPregCount/:factors',GraficasCtrl.getUserFactor);
