@@ -316,10 +316,12 @@ const getUserFecha = (req,res) => {
     var mes1 = moment.getMonth();
     var mes1 = mes1 + 1;
     var year = moment.getFullYear();*/
-    //var moment = new Date();
-    //var mes1 = moment.getMonth();
-    var mes1 =  req.body.mes;
-    var year = req.body.year;
+    let moment = new Date();
+    let m = moment.getMonth();
+    let y = moment.getFullYear();
+    console.log(m,y)
+    let mes1 = m;
+    let year = y;
    
     User.aggregate([
         { $project: { signupDate: 1, typeUser: 1,mes: { $month: "$signupDate" }, año: { $year: "$signupDate" }}},
