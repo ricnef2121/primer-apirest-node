@@ -206,7 +206,7 @@ const getUserSemestre = (req,res) => {
         { $unwind: '$resultados' },
         { $unwind: '$datosAcademicos'},
         { $project: { resultados: 1, datosAcademicos: 1, factor: '$resultados.factor', semestre: '$datosAcademicos.semestre' } },
-        
+        {$match: { typeUser:"estudiante"}},
        {
             $group:{
                 _id:{semestre: '$datosAcademicos.semestre', factor: '$resultados.factor'},      
@@ -215,7 +215,7 @@ const getUserSemestre = (req,res) => {
         },
 
         { $project: { _id: 0, conteo: 1, factor: 1, semestre: 1, factor: '$_id.factor' , semestre:'$_id.semestre' }},
-      
+        {$match: { typeUser:"estudiante"}},
         { 
             $group:{
                _id:{semestre:'$semestre'}, 
