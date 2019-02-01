@@ -79,6 +79,7 @@ api.get('/userFechas',GraficasCtrl.getUserFecha);
 api.get('/userResCount',GraficasCtrl.getUserResultados);
 api.get('/userSemCount',GraficasCtrl.getUserSemestre);
 api.get('/userPregCount/:factors',GraficasCtrl.getUserFactor);
+api.get('/userFechasCount/:mes/:year',GraficasCtrl.getUserFechaByParams);
 
 //Carreras
 //agrega una nueva carrera

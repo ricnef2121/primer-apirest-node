@@ -320,9 +320,11 @@ const getUserFecha = (req,res) => {
     let m = moment.getMonth();
     let y = moment.getFullYear();
     console.log(m,y)
-    let mes1 = m;
+    let mes1 = m+1;
     let year = y;
-   
+   console.log(mes1,year)
+
+
     User.aggregate([
         { $project: { signupDate: 1, typeUser: 1,mes: { $month: "$signupDate" }, año: { $year: "$signupDate" }}},
   
@@ -339,6 +341,44 @@ const getUserFecha = (req,res) => {
         res.json(aggregate)
     })
 }
+
+
+
+
+
+const getUserFechaByParams = (req,res) => {
+    //var moment = new Date();
+    //var me = moment.getMonth();
+    //console.log(moment);
+    //console.log(me);
+    var mes1 = req.params.mes;
+    var year1 = req.params.year;
+    var mes1 = parseInt(mes1)
+    var year1 = parseInt(year1)
+
+console.log(mes1,year1)
+    //console.log(mes1)
+    User.aggregate([
+        { $project: { _id:0, signupDate: 1, typeUser: 1,dia:1, mes: 1, año:1, mes: { $month: "$signupDate" }, año: { $year: "$signupDate" },dia:{$dayOfMonth: "$signupDate"}}},
+  
+       {
+            $match:{$and : [{typeUser: "estudiante"}, {mes:mes1},{año:year1}]}},
+ //               $and : [
+   //             {typeUser: "estudiante"},
+     //           $expr : {signupDate:{$month:"$2009-01-01"}
+        
+        {
+            $group:{
+                _id:{ dia: {  $dayOfMonth: "$signupDate"}, mes: { $month: "$signupDate" }, año: { $year: "$signupDate" }},         
+                conteo:{$sum:1}
+            }
+        },
+    ],(err,aggregate)=>{
+        if(err) return res.status(500).send({message:`error de peticion: ${err}`})
+        res.json(aggregate)
+    })
+}
+
 
 
 
@@ -359,5 +399,8 @@ module.exports = {
     getUserResultados,
     getUserSemestre,
     getUserFactor,
-    getUserFecha
+    getUserFecha,
+
+
+    getUserFechaByParams
 }
