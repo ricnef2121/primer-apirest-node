@@ -380,7 +380,42 @@ console.log(mes1,year1)
 }
 
 
+///////////////////Ultimos 30 registros(por dia)//////////////////
+const getUser30 = (req,res) => {
+    //var moment = new Date();
+    //var me = moment.getMonth();
+    //console.log(moment);
+    //console.log(me);
+    var mes1 = req.params.mes;
+    var year1 = req.params.year;
+    var mes1 = parseInt(mes1)
+    var year1 = parseInt(year1)
 
+
+    //console.log(mes1)
+    User.aggregate([
+        { $project: { _id:0, signupDate: 1, typeUser: 1,dia:1, mes: 1, año:1, mes: { $month: "$signupDate" }, año: { $year: "$signupDate" },dia:{$dayOfMonth: "$signupDate"}}},
+  
+      { $match:{typeUser: "estudiante"}},
+ //               $and : [
+   //             {typeUser: "estudiante"},
+     //           $expr : {signupDate:{$month:"$2009-01-01"}
+        
+        {
+            $group:{
+                _id:{ dia: {  $dayOfMonth: "$signupDate"}, mes: { $month: "$signupDate" }, año: { $year: "$signupDate" }},         
+                conteo:{$sum:1}
+            }
+        },
+        { $project: { _id: 0, dia:1, mes:1,año:1 ,conteo:1, dia:'$_id.dia',mes:'$_id.mes',año:'$_id.año' }},
+        {$sort: {año: -1, mes:-1, dia:-1}},
+        {$limit: 30}
+
+    ],(err,aggregate)=>{
+        if(err) return res.status(500).send({message:`error de peticion: ${err}`})
+        res.json(aggregate)
+    })
+}
 
 module.exports = {
     getSUserCountStudentByGroupSexo,
@@ -402,5 +437,7 @@ module.exports = {
     getUserFecha,
 
 
-    getUserFechaByParams
+    getUserFechaByParams,
+
+    getUser30
 }
