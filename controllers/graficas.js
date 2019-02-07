@@ -417,6 +417,98 @@ const getUser30 = (req,res) => {
     })
 }
 
+
+const getUserSemestre2 = (req,res) => {
+    User.aggregate([
+     
+       { $unwind: '$resultados' },
+       { $unwind: '$datosAcademicos'},
+        { $project: { _id:1, typeUser: 1, resultados: 1, datosAcademicos: 1, factor: '$resultados.factor', semestre: '$datosAcademicos.semestre', pregunta: '$resultados.pregunta' } },
+        { $match:{typeUser: "estudiante"}},
+       {
+            $group:{
+                _id:{_id: '$_id', semestre: '$datosAcademicos.semestre', factor: '$resultados.factor'},      
+                conteo:{$sum:1},           
+            }
+        },
+        
+
+        { $project: { _id: 0,conteo:1, factor: 1, semestre: 1, factor: '$_id.factor' , semestre:'$_id.semestre', _id:'$_id._id'}},
+     
+        { 
+            $group:{
+               _id:{_id:'$_id',semestre:'$semestre'}, 
+               //conteo:{$sum:1}, 
+              // maximo: {$max:'$conteo'},
+               datos:{
+               $push: {
+                  factor:"$factor",
+                  conteo: "$conteo"
+        
+                }             
+            }
+        }}, 
+        { $unwind: '$datos' },
+        { $project: { _id: 0,conteo:1, factor: 1, semestre: 1, factor: '$datos.factor' ,conteo:'$datos.conteo', semestre:'$_id.semestre', _id:'$_id._id'}},
+        {$sort: {_id: -1, conteo:-1 }},
+          
+        { 
+            $group:{
+               _id:{_id:'$_id', semestre:'$semestre'}, 
+               maximo: { $first: "$conteo" },
+               factor: { $first: '$factor'},  
+               //conteo:{$sum:1}, 
+              // maximo: {$max:'$conteo'},
+              /* datos:{
+               $push: {
+                  semestre:'$semestre',
+                  factor:"$factor",
+                  conteo: "$conteo"
+                }             
+               }*/
+        }}, 
+
+        { $project: { _id: 0, maximo:1, factor: 1, semestre: 1 , semestre:'$_id.semestre', _id:'$_id._id'}},
+
+        { 
+            $group:{
+               _id:{factor:'$factor', semestre:'$semestre'}, 
+               conteo_de_estudiantes:{$sum:1},
+               usuarios:{
+                $push: {
+                   _id:'$_id',
+                   maximo:"$maximo",
+                 }             
+                }
+            
+        }}, 
+
+        { $project: { _id: 0,conteo_de_estudiantes:1, usuarios:1, factor: 1, semestre: 1 , semestre:'$_id.semestre', factor:'$_id.factor'}},
+       
+        { 
+            $group:{
+               _id:{semestre:'$semestre'}, 
+               
+               desercion:{
+                $push: {
+                   conteo_de_estudiantes:'$conteo_de_estudiantes',
+                   usuarios:"$usuarios",
+                   factor:'$factor'
+                 }             
+                }
+            
+        }}, 
+       
+      { $project: { _id: 0, semestre: 1, desercion: 1, semestre: '$_id.semestre'  }},
+
+    ],(err,aggregate)=>{
+        if(err) return res.status(500).send({message:`error de peticion: ${err}`})
+        res.json(aggregate)
+    })
+}
+
+
+
 module.exports = {
     getSUserCountStudentByGroupSexo,
     getUserCountMujerStudent,
@@ -439,5 +531,7 @@ module.exports = {
 
     getUserFechaByParams,
 
-    getUser30
+    getUser30,
+
+    getUserSemestre2
 }

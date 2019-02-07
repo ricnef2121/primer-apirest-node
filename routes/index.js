@@ -83,6 +83,8 @@ api.get('/userFechasCount/:mes/:year',GraficasCtrl.getUserFechaByParams);
 //
 api.get('/userUltimoMes',GraficasCtrl.getUser30);
 
+api.get('/userSemCount2',GraficasCtrl.getUserSemestre2);
+
 
 //Carreras
 //agrega una nueva carrera
